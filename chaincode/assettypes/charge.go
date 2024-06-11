@@ -72,7 +72,7 @@ var Charge = assets.AssetType{
 		{
 			Required: true,
 			Tag:      "absoluteDefaultGracePeriodDays",
-			Label:    "Absolute Default Fine Over Remaining",
+			Label:    "Absolute Default Grace Period Days",
 			DataType: "integer",
 		},
 		{
