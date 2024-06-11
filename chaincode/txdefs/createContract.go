@@ -2,11 +2,9 @@ package txdefs
 
 import (
 	"encoding/json"
-	"fmt"
 
 	"github.com/hyperledger-labs/cc-tools/assets"
 	"github.com/hyperledger-labs/cc-tools/errors"
-	"github.com/hyperledger-labs/cc-tools/events"
 	sw "github.com/hyperledger-labs/cc-tools/stubwrapper"
 	tx "github.com/hyperledger-labs/cc-tools/transactions"
 )
@@ -136,26 +134,105 @@ var CreateContract = tx.Transaction{
 		},
 	},
 	Routine: func(stub *sw.StubWrapper, req map[string]interface{}) ([]byte, errors.ICCError) {
-		id, _ := req["id"].(string)
-		discriminator, _ := req["discriminator"].(string)
-		notarySubscriptionId, _ := req["notarySubscriptionId"].(string)
-		assetRegistry, _ := req["assetRegistry"].(string)
-		cns, _ := req["cns"].(string)
-		contractType, _ := req["type"].(string)
-		realStateAssetTypeCode, _ := req["realStateAssetTypeCode"].(string)
-		propertyTypeCode, _ := req["propertyTypeCode"].(string)
-		value, _ := req["value"].(float64)
-		creationDateUtc, _ := req["creationDateUtc"].(string)
-		ccir, _ := req["ccir"].(string)
-		nirf, _ := req["nirf"].(string)
-		charge, _ := req["charge"].(assets.Asset)
-		holders, _ := req["holders"].([]assets.Asset)
-		installments, _ := req["installments"].([]assets.Asset)
-		notaryData, _ := req["notaryData"].(assets.Asset)
-		payment, _ := req["payment"].([]assets.Asset)
-		reimbursement, _ := req["reimbursement"].(assets.Asset)
-		statusCode, _ := req["statusCode"].(string)
-		lastEventDate, _ := req["lastEventDate"].(string)
+		id, ok := req["id"].(string)
+		if !ok {
+			return nil, errors.WrapError(nil, "Invalid type for parameter 'id'")
+		}
+
+		discriminator, ok := req["discriminator"].(string)
+		if !ok {
+			return nil, errors.WrapError(nil, "Invalid type for parameter 'discriminator'")
+		}
+
+		notarySubscriptionId, ok := req["notarySubscriptionId"].(string)
+		if !ok {
+			return nil, errors.WrapError(nil, "Invalid type for parameter 'notarySubscriptionId'")
+		}
+
+		assetRegistry, ok := req["assetRegistry"].(string)
+		if !ok {
+			return nil, errors.WrapError(nil, "Invalid type for parameter 'assetRegistry'")
+		}
+
+		cns, ok := req["cns"].(string)
+		if !ok {
+			return nil, errors.WrapError(nil, "Invalid type for parameter 'cns'")
+		}
+
+		contractType, ok := req["type"].(string)
+		if !ok {
+			return nil, errors.WrapError(nil, "Invalid type for parameter 'type'")
+		}
+
+		realStateAssetTypeCode, ok := req["realStateAssetTypeCode"].(string)
+		if !ok {
+			return nil, errors.WrapError(nil, "Invalid type for parameter 'realStateAssetTypeCode'")
+		}
+
+		propertyTypeCode, ok := req["propertyTypeCode"].(string)
+		if !ok {
+			return nil, errors.WrapError(nil, "Invalid type for parameter 'propertyTypeCode'")
+		}
+
+		value, ok := req["value"].(float64)
+		if !ok {
+			return nil, errors.WrapError(nil, "Invalid type for parameter 'value'")
+		}
+
+		creationDateUtc, ok := req["creationDateUtc"].(string)
+		if !ok {
+			return nil, errors.WrapError(nil, "Invalid type for parameter 'creationDateUtc'")
+		}
+
+		ccir, ok := req["ccir"].(string)
+		if !ok {
+			return nil, errors.WrapError(nil, "Invalid type for parameter 'ccir'")
+		}
+
+		nirf, ok := req["nirf"].(string)
+		if !ok {
+			return nil, errors.WrapError(nil, "Invalid type for parameter 'nirf'")
+		}
+
+		charge, ok := req["charge"].(assets.Key)
+		if !ok {
+			return nil, errors.WrapError(nil, "Invalid type for parameter 'charge'")
+		}
+
+		holders, ok := req["holders"].([]interface{})
+		if !ok {
+			return nil, errors.WrapError(nil, "Invalid type for parameter 'holders'")
+		}
+
+		installments, ok := req["installments"].([]interface{})
+		if !ok {
+			return nil, errors.WrapError(nil, "Invalid type for parameter 'installments'")
+		}
+
+		notaryData, ok := req["notaryData"].(assets.Key)
+		if !ok {
+			return nil, errors.WrapError(nil, "Invalid type for parameter 'notaryData'")
+		}
+
+		payment, ok := req["payment"].([]interface{})
+		if !ok {
+			return nil, errors.WrapError(nil, "Invalid type for parameter 'payment'")
+		}
+
+		reimbursement, ok := req["reimbursement"].(assets.Key)
+		if !ok {
+			return nil, errors.WrapError(nil, "Invalid type for parameter 'reimbursement'")
+		}
+
+		statusCode, ok := req["statusCode"].(string)
+		if !ok {
+			return nil, errors.WrapError(nil, "Invalid type for parameter 'statusCode'")
+		}
+
+		lastEventDate, ok := req["lastEventDate"].(string)
+		if !ok {
+			return nil, errors.WrapError(nil, "Invalid type for parameter 'lastEventDate'")
+		}
 
 		contractMap := map[string]interface{}{
 			"@assetType":             "contract",
@@ -195,13 +272,6 @@ var CreateContract = tx.Transaction{
 		if nerr != nil {
 			return nil, errors.WrapError(nil, "Failed to encode asset to JSON format")
 		}
-
-		logMsg, ok := json.Marshal(fmt.Sprintf("New contract created with ID: %s", id))
-		if ok != nil {
-			return nil, errors.WrapError(nil, "Failed to encode log message to JSON format")
-		}
-
-		events.CallEvent(stub, "createContractLog", logMsg)
 
 		return contractJSON, nil
 	},
