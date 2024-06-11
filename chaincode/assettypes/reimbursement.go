@@ -14,6 +14,7 @@ var Reimbursement = assets.AssetType{
 			DataType: "[]->installment",
 		},
 		{
+			IsKey:    true,
 			Tag:      "reimbursementInstallment",
 			Label:    "Reimbursement Installment",
 			DataType: "->installment",
