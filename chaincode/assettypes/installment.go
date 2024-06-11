@@ -3,9 +3,9 @@ package assettypes
 import "github.com/hyperledger-labs/cc-tools/assets"
 
 var Instalment = assets.AssetType{
-	Tag:         "holder",
-	Label:       "Holder",
-	Description: "Holder",
+	Tag:         "installment",
+	Label:       "Installment",
+	Description: "Installment",
 
 	Props: []assets.AssetProp{
 		{
