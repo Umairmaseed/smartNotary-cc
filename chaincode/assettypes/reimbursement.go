@@ -11,7 +11,7 @@ var Reimbursement = assets.AssetType{
 		{
 			Tag:      "cancelledInstallments",
 			Label:    "Cancelled Installments",
-			DataType: "->[]installment",
+			DataType: "[]->installment",
 		},
 		{
 			Tag:      "reimbursementInstallment",

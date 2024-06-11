@@ -91,13 +91,13 @@ var Contract = assets.AssetType{
 			Required: true,
 			Tag:      "holders",
 			Label:    "Holders",
-			DataType: "->[]installment",
+			DataType: "[]->holder",
 		},
 		{
 			Required: true,
 			Tag:      "installments",
 			Label:    "Installments",
-			DataType: "->[]installment",
+			DataType: "[]->installment",
 		},
 		{
 			Required: true,
@@ -108,7 +108,7 @@ var Contract = assets.AssetType{
 		{
 			Tag:      "payment",
 			Label:    "Payment",
-			DataType: "->[]payment",
+			DataType: "[]->payment",
 		},
 		{
 			Tag:      "reimbursement",
