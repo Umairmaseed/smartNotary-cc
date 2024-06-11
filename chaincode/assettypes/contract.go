@@ -91,7 +91,7 @@ var Contract = assets.AssetType{
 			Required: true,
 			Tag:      "holders",
 			Label:    "Holders",
-			DataType: "->[]holder",
+			DataType: "->[]installment",
 		},
 		{
 			Required: true,
