@@ -147,11 +147,6 @@ var PayInstallment = tx.Transaction{
 			return nil, errors.WrapError(nil, "Invalid type for parameter 'payment.gatewayFee'")
 		}
 
-		// installmentKey, ok := payment["installment"].(assets.Key)
-		// if !ok {
-		// 	return nil, errors.WrapError(nil, "Invalid type for parameter 'payment.installment'")
-		// }
-
 		keyInstallment, err := assets.NewKey(map[string]interface{}{
 			"@assetType": "installment",
 			"id":         installmentId,
@@ -219,12 +214,12 @@ var PayInstallment = tx.Transaction{
 			return nil, errors.WrapError(err, "Failed to update contract asset")
 		}
 
-		contractJSON, nerr := json.Marshal(paymentAsset)
+		paymentJSON, nerr := json.Marshal(paymentAsset)
 		if nerr != nil {
 			return nil, errors.WrapError(nil, "Failed to encode asset to JSON format")
 		}
 
-		return contractJSON, nil
+		return paymentJSON, nil
 
 	},
 }

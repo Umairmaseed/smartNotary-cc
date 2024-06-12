@@ -12,4 +12,5 @@ var txList = []tx.Transaction{
 	txdefs.CreateContract,
 	txdefs.UpdateContractEvent,
 	txdefs.PayInstallment,
+	txdefs.Reimbursement,
 }
