@@ -1,13 +1,17 @@
 package main
 
 import (
-	"github.com/hyperledger-labs/smartescritura-cc/chaincode/assettypes"
 	"github.com/hyperledger-labs/cc-tools/assets"
+	"github.com/hyperledger-labs/smartescritura-cc/chaincode/assettypes"
 )
 
 var assetTypeList = []assets.AssetType{
-	assettypes.Person,
-	assettypes.Book,
-	assettypes.Library,
 	assettypes.Secret,
+	assettypes.Contract,
+	assettypes.Charge,
+	assettypes.Holder,
+	assettypes.Instalment,
+	assettypes.NotaryData,
+	assettypes.Payment,
+	assettypes.Reimbursement,
 }
