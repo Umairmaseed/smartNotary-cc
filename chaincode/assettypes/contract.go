@@ -3,7 +3,7 @@ package assettypes
 import "github.com/hyperledger-labs/cc-tools/assets"
 
 var Contract = assets.AssetType{
-	Tag:         "contact",
+	Tag:         "contract",
 	Label:       "Contract",
 	Description: "Contract",
 

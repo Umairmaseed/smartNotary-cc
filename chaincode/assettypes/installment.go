@@ -55,8 +55,8 @@ var Instalment = assets.AssetType{
 			DataType: "number",
 		},
 		{
-			Tag:      "monetaryCorretionValue",
-			Label:    "Monetary Corretion Value",
+			Tag:      "monetaryCorrectionValue",
+			Label:    "Monetary Correction Value",
 			DataType: "number",
 		},
 		{
