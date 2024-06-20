@@ -14,4 +14,5 @@ var assetTypeList = []assets.AssetType{
 	assettypes.NotaryData,
 	assettypes.Payment,
 	assettypes.Reimbursement,
+	assettypes.Address,
 }

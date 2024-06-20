@@ -132,6 +132,11 @@ var CreateContract = tx.Transaction{
 			Label:    "Last Event Date",
 			DataType: "string",
 		},
+		{
+			Tag:      "address",
+			Label:    "Address",
+			DataType: "->address",
+		},
 	},
 	Routine: func(stub *sw.StubWrapper, req map[string]interface{}) ([]byte, errors.ICCError) {
 		id, ok := req["id"].(string)
@@ -234,6 +239,11 @@ var CreateContract = tx.Transaction{
 			return nil, errors.WrapError(nil, "Invalid type for parameter 'lastEventDate'")
 		}
 
+		address, ok := req["address"].(assets.Key)
+		if !ok {
+			return nil, errors.WrapError(nil, "Invalid type for parameter 'address'")
+		}
+
 		contractMap := map[string]interface{}{
 			"@assetType":             "contract",
 			"id":                     id,
@@ -256,6 +266,7 @@ var CreateContract = tx.Transaction{
 			"reimbursement":          reimbursement,
 			"statusCode":             statusCode,
 			"lastEventDate":          lastEventDate,
+			"address":                address,
 		}
 
 		contractAsset, err := assets.NewAsset(contractMap)
