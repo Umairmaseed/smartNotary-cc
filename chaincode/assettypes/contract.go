@@ -125,5 +125,10 @@ var Contract = assets.AssetType{
 			Label:    "Last Event Date",
 			DataType: "string",
 		},
+		{
+			Tag:      "address",
+			Label:    "Address",
+			DataType: "->address",
+		},
 	},
 }
