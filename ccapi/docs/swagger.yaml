@@ -1,12 +1,13 @@
 openapi: 3.0.0
 info:
-  description: Documentation of the Chaincode API. This API is used to interact with the chaincode. 
+  description: Documentation of the Chaincode API. This API is used to interact with the chaincode.
   version: "1.0"
   title: CC Tools Demo
 servers:
   - url: /api
 tags:
   - name: Basic Operations
+  - name: Personalize Transaction
 paths:
   /invoke/{txName}:
     post:
@@ -347,3 +348,560 @@ paths:
           description: Asset not found
         5XX:
           description: Internal error
+
+  /invoke/createContract:
+    post:
+      tags:
+        - Personalize Transaction
+      summary: Create a new contract on the blockchain
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID of the contract.
+        - in: query
+          name: discriminator
+          schema:
+            type: string
+          required: true
+          description: Discriminator for the contract.
+        - in: query
+          name: notarySubscriptionId
+          schema:
+            type: string
+          required: true
+          description: Notary subscription ID related to the contract.
+        - in: query
+          name: assetRegistry
+          schema:
+            type: string
+          required: true
+          description: Asset registry associated with the contract.
+        - in: query
+          name: cns
+          schema:
+            type: string
+          required: true
+          description: CNS (Central Notification System) related to the contract.
+        - in: query
+          name: type
+          schema:
+            type: string
+          required: true
+          description: Type of the contract.
+        - in: query
+          name: realStateAssetTypeCode
+          schema:
+            type: string
+          required: true
+          description: Real estate asset type code for the contract.
+        - in: query
+          name: propertyTypeCode
+          schema:
+            type: string
+          required: true
+          description: Property type code for the contract.
+        - in: query
+          name: value
+          schema:
+            type: number
+          required: true
+          description: Value associated with the contract.
+        - in: query
+          name: creationDateUtc
+          schema:
+            type: string
+            format: date-time
+          required: true
+          description: Creation date of the contract in UTC.
+        - in: query
+          name: ccir
+          schema:
+            type: string
+          required: true
+          description: CCIR (Country Code for Institutional Registration) related to the contract.
+        - in: query
+          name: nirf
+          schema:
+            type: string
+          required: true
+          description: NIRF (National Identity Reference File) related to the contract.
+        - in: query
+          name: statusCode
+          schema:
+            type: string
+          required: true
+          description: Status code of the contract.
+        - in: query
+          name: lastEventDate
+          schema:
+            type: string
+            format: date-time
+          required: true
+          description: Date of the last event related to the contract in UTC.
+        - in: query
+          name: charge
+          schema:
+            type: object
+            properties:
+              id:
+                type: string
+              financingModalityCode:
+                type: string
+              financingModalityInterest:
+                type: number
+              monetaryCorrectionIndexCode:
+                type: string
+              monetaryCorrectionIndexPeriodicityCode:
+                type: string
+              fineInCaseOfDelay:
+                type: number
+              interestInCaseOfDelay:
+                type: number
+              delayGracePeriodDays:
+                type: integer
+              absoluteDefaultFineOverSignalPayment:
+                type: number
+              absoluteDefaultFineOverRemaining:
+                type: number
+              absoluteDefaultGracePeriodDays:
+                type: integer
+              hasPossession:
+                type: boolean
+              possessionDate:
+                type: string
+              exitDate:
+                type: string
+              fineInCaseOfOverstay:
+                type: number
+            required:
+              - id
+              - financingModalityCode
+              - financingModalityInterest
+              - monetaryCorrectionIndexCode
+              - monetaryCorrectionIndexPeriodicityCode
+              - fineInCaseOfDelay
+              - interestInCaseOfDelay
+              - delayGracePeriodDays
+              - absoluteDefaultFineOverSignalPayment
+              - absoluteDefaultFineOverRemaining
+              - absoluteDefaultGracePeriodDays
+              - hasPossession
+              - possessionDate
+              - exitDate
+              - fineInCaseOfOverstay
+          required: true
+          description: Charge information related to the contract.
+        - in: query
+          name: holders
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                holderId:
+                  type: string
+                role:
+                  type: string
+                ownedPercentage:
+                  type: number
+                percentage:
+                  type: number
+              required:
+                - holderId
+                - role
+                - ownedPercentage
+                - percentage
+          required: true
+          description: List of holders associated with the contract.
+        - in: query
+          name: installments
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: string
+                number:
+                  type: integer
+                dueDateUtc:
+                  type: string
+                  format: date-time
+                amortization:
+                  type: number
+                financingModalityInterestValue:
+                  type: number
+                installmentValue:
+                  type: number
+                fineInCaseOfDelayValue:
+                  type: number
+                interestInCaseOfDelayValue:
+                  type: number
+                monetaryCorrectionValue:
+                  type: number
+                reimbursement:
+                  type: number
+              required:
+                - id
+                - number
+                - dueDateUtc
+                - amortization
+                - financingModalityInterestValue
+                - installmentValue
+          required: true
+          description: List of installments related to the contract.
+        - in: query
+          name: notaryData
+          schema:
+            type: object
+            properties:
+              signerDocumentId:
+                type: string
+              mne:
+                type: string
+              notarizationDate:
+                type: string
+                format: date-time
+            required:
+              - signerDocumentId
+              - mne
+              - notarizationDate
+          required: true
+          description: Notary data related to the contract.
+        - in: query
+          name: address
+          schema:
+            type: object
+            properties:
+              id:
+                type: string
+              ufCode:
+                type: string
+              city:
+                type: string
+              neighborhood:
+                type: string
+              zipCode:
+                type: string
+              number:
+                type: string
+              additionalInfo:
+                type: string
+            required:
+              - id
+              - ufCode
+              - city
+              - neighborhood
+              - zipCode
+              - number
+              - additionalInfo
+          required: true
+          description: Address associated with the contract.
+      responses:
+        "200":
+          description: Contract successfully created
+        "400":
+          description: Bad format
+        "409":
+          description: Contract already exists
+        "5XX":
+          description: Internal Server Error
+
+  /query/getContract:
+    post:
+      tags:
+        - Personalize Transaction
+      summary: Retrieve contract details from the blockchain
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+              required:
+                - id
+      responses:
+        "200":
+          description: Contract details retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+        "400":
+          description: Bad Request
+        "404":
+          description: Contract not found
+        "5XX":
+          description: Internal Server Error
+
+  /query/getContractHistory:
+    post:
+      tags:
+        - Personalize Transaction
+      summary: Retrieve history of changes for a specific contract from the blockchain
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID of the contract to retrieve history for.
+      responses:
+        "200":
+          description: Contract history retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    txId:
+                      type: string
+                      description: Transaction ID
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: Timestamp of the transaction
+                    value:
+                      type: object
+                      description: Raw JSON message representing the value at that transaction
+                    isDeleted:
+                      type: boolean
+                      description: Indicates if the record was deleted
+        "400":
+          description: Bad Request
+        "404":
+          description: Contract not found
+        "5XX":
+          description: Internal Server Error
+
+  /invoke/payInstallment:
+    post:
+      tags:
+        - Personalize Transaction
+      summary: Make a payment for an installment of a contract
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                assetId:
+                  type: string
+                  description: ID of the contract for which the installment payment is made
+                installment:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      description: ID of the installment
+                    number:
+                      type: integer
+                      description: Installment number
+                    dueDateUtc:
+                      type: string
+                      format: date-time
+                      description: Due date of the installment in UTC
+                    amortization:
+                      type: number
+                      description: Amortization value
+                    financingModalityInterestValue:
+                      type: number
+                      description: Financing modality interest value
+                    installmentValue:
+                      type: number
+                      description: Installment value
+                    fineInCaseOfDelayValue:
+                      type: number
+                      description: Fine in case of delay value
+                    interestInCaseOfDelayValue:
+                      type: number
+                      description: Interest in case of delay value
+                    monetaryCorrectionValue:
+                      type: number
+                      description: Monetary correction value
+                    reimbursement:
+                      type: number
+                      description: Reimbursement value
+                  required:
+                    - id
+                    - number
+                    - dueDateUtc
+                    - amortization
+                    - financingModalityInterestValue
+                    - installmentValue
+                payment:
+                  type: object
+                  properties:
+                    value:
+                      type: number
+                      description: Payment value
+                    dateCompletedUtc:
+                      type: string
+                      format: date-time
+                      description: Date when the payment was completed in UTC
+                    discriminator:
+                      type: string
+                      description: Discriminator for payment details
+                    gatewaySaleId:
+                      type: string
+                      description: Gateway sale ID
+                    gatewaySellerId:
+                      type: string
+                      description: Gateway seller ID
+                    gatewayFee:
+                      type: number
+                      description: Gateway fee
+                  required:
+                    - value
+                    - dateCompletedUtc
+                    - discriminator
+                    - gatewaySaleId
+                    - gatewaySellerId
+                    - gatewayFee
+      responses:
+        "200":
+          description: Payment processed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+        "400":
+          description: Bad Request
+        "404":
+          description: Contract or installment not found
+        "5XX":
+          description: Internal Server Error
+
+  /invoke/reimbursement:
+    post:
+      tags:
+        - Personalize Transaction
+      summary: Create a reimbursement for cancelled installments of a contract
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                assetId:
+                  type: string
+                  description: ID of the contract for which the reimbursement is created
+                cancelledInstallments:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        description: ID of the cancelled installment
+                  description: List of cancelled installment objects
+                reimbursementInstallment:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      description: ID of the reimbursement installment
+                    number:
+                      type: integer
+                      description: Reimbursement installment number
+                    dueDateUtc:
+                      type: string
+                      format: date-time
+                      description: Due date of the reimbursement installment in UTC
+                    amortization:
+                      type: number
+                      description: Amortization value of the reimbursement installment
+                    financingModalityInterestValue:
+                      type: number
+                      description: Financing modality interest value of the reimbursement installment
+                    installmentValue:
+                      type: number
+                      description: Value of the reimbursement installment
+                  required:
+                    - id
+                    - number
+                    - dueDateUtc
+                    - amortization
+                    - financingModalityInterestValue
+                    - installmentValue
+      responses:
+        "200":
+          description: Reimbursement created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+        "400":
+          description: Bad Request
+        "404":
+          description: Contract or installment not found
+        "5XX":
+          description: Internal Server Error
+
+  /invoke/updateContractEvent:
+    post:
+      tags:
+        - Personalize Transaction
+      summary: Update Contract Event
+      description: Register an event change on the contract
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                assetId:
+                  type: string
+                  description: ID of the contract to update
+                  example: "contract123"
+                statusCode:
+                  type: string
+                  description: New status code of the contract
+                  example: "active"
+                eventDate:
+                  type: string
+                  format: date-time
+                  description: Date of the event in UTC format
+                  example: "2023-06-15T00:00:00Z"
+              required:
+                - assetId
+                - statusCode
+                - eventDate
+      responses:
+        "200":
+          description: Contract event updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  assetId:
+                    type: string
+                    description: ID of the updated contract
+                    example: "contract123"
+                  statusCode:
+                    type: string
+                    description: Updated status code of the contract
+                    example: "active"
+                  lastEventDate:
+                    type: string
+                    format: date-time
+                    description: Date of the last event in UTC format
+                    example: "2023-06-15T00:00:00Z"
+        "400":
+          description: Bad Request
+        "404":
+          description: Contract not found
+        "5XX":
+          description: Internal Server Error
