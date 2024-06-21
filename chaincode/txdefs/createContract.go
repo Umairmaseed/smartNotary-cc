@@ -2,11 +2,13 @@ package txdefs
 
 import (
 	"encoding/json"
+	"fmt"
 
 	"github.com/hyperledger-labs/cc-tools/assets"
 	"github.com/hyperledger-labs/cc-tools/errors"
 	sw "github.com/hyperledger-labs/cc-tools/stubwrapper"
 	tx "github.com/hyperledger-labs/cc-tools/transactions"
+	"github.com/hyperledger-labs/smartescritura-cc/chaincode/utils"
 )
 
 var CreateContract = tx.Transaction{
@@ -92,35 +94,25 @@ var CreateContract = tx.Transaction{
 			Required: true,
 			Tag:      "charge",
 			Label:    "Charge",
-			DataType: "->charge",
+			DataType: "@object",
 		},
 		{
 			Required: true,
 			Tag:      "holders",
 			Label:    "Holders",
-			DataType: "[]->holder",
+			DataType: "[]@object",
 		},
 		{
 			Required: true,
 			Tag:      "installments",
 			Label:    "Installments",
-			DataType: "[]->installment",
+			DataType: "[]@object",
 		},
 		{
 			Required: true,
 			Tag:      "notaryData",
 			Label:    "Notary Data",
-			DataType: "->notaryData",
-		},
-		{
-			Tag:      "payment",
-			Label:    "Payment",
-			DataType: "[]->payment",
-		},
-		{
-			Tag:      "reimbursement",
-			Label:    "Reimbursement",
-			DataType: "->reimbursement",
+			DataType: "@object",
 		},
 		{
 			Tag:      "statusCode",
@@ -133,9 +125,10 @@ var CreateContract = tx.Transaction{
 			DataType: "string",
 		},
 		{
+			Required: true,
 			Tag:      "address",
 			Label:    "Address",
-			DataType: "->address",
+			DataType: "@object",
 		},
 	},
 	Routine: func(stub *sw.StubWrapper, req map[string]interface{}) ([]byte, errors.ICCError) {
@@ -199,36 +192,6 @@ var CreateContract = tx.Transaction{
 			return nil, errors.WrapError(nil, "Invalid type for parameter 'nirf'")
 		}
 
-		charge, ok := req["charge"].(assets.Key)
-		if !ok {
-			return nil, errors.WrapError(nil, "Invalid type for parameter 'charge'")
-		}
-
-		holders, ok := req["holders"].([]interface{})
-		if !ok {
-			return nil, errors.WrapError(nil, "Invalid type for parameter 'holders'")
-		}
-
-		installments, ok := req["installments"].([]interface{})
-		if !ok {
-			return nil, errors.WrapError(nil, "Invalid type for parameter 'installments'")
-		}
-
-		notaryData, ok := req["notaryData"].(assets.Key)
-		if !ok {
-			return nil, errors.WrapError(nil, "Invalid type for parameter 'notaryData'")
-		}
-
-		payment, ok := req["payment"].([]interface{})
-		if !ok {
-			return nil, errors.WrapError(nil, "Invalid type for parameter 'payment'")
-		}
-
-		reimbursement, ok := req["reimbursement"].(assets.Key)
-		if !ok {
-			return nil, errors.WrapError(nil, "Invalid type for parameter 'reimbursement'")
-		}
-
 		statusCode, ok := req["statusCode"].(string)
 		if !ok {
 			return nil, errors.WrapError(nil, "Invalid type for parameter 'statusCode'")
@@ -239,10 +202,78 @@ var CreateContract = tx.Transaction{
 			return nil, errors.WrapError(nil, "Invalid type for parameter 'lastEventDate'")
 		}
 
-		address, ok := req["address"].(assets.Key)
+		//------------------------checking and creating charge asset-----------------------
+		chargeMap, ok := req["charge"].(map[string]interface{})
+		if !ok {
+			return nil, errors.WrapError(nil, "Invalid type for parameter 'charge'")
+		}
+		charge, err := utils.CheckAndCreateAsset(stub, chargeMap, "charge")
+		if err != nil {
+			return nil, errors.WrapError(err, "Failed to process 'charge'")
+		}
+		fmt.Println("--------------------", charge)
+
+		//------------------------checking and creating holder asset-----------------------
+		holderMaps, ok := req["holders"].([]interface{})
+		if !ok {
+			return nil, errors.WrapError(nil, "Invalid type for parameter 'holders'")
+		}
+		var holders []map[string]interface{}
+		for _, holderMap := range holderMaps {
+			holder, ok := holderMap.(map[string]interface{})
+			if !ok {
+				return nil, errors.WrapError(nil, "Invalid type in 'holders' array")
+			}
+			asset, err := utils.CheckAndCreateAsset(stub, holder, "holder")
+			if err != nil {
+				return nil, errors.WrapError(err, "Failed to process 'holders'")
+			}
+			fmt.Println("--------------------", asset)
+
+			holders = append(holders, asset)
+		}
+
+		//------------------------checking and creating installment asset-----------------------
+		installmentMaps, ok := req["installments"].([]interface{})
+		if !ok {
+			return nil, errors.WrapError(nil, "Invalid type for parameter 'installments'")
+		}
+		var installments []map[string]interface{}
+		for _, installmentMap := range installmentMaps {
+			installment, ok := installmentMap.(map[string]interface{})
+			if !ok {
+				return nil, errors.WrapError(nil, "Invalid type in 'installments' array")
+			}
+			asset, err := utils.CheckAndCreateAsset(stub, installment, "installment")
+			if err != nil {
+				return nil, errors.WrapError(err, "Failed to process 'installments'")
+			}
+			fmt.Println("--------------------", asset)
+
+			installments = append(installments, asset)
+		}
+
+		//------------------------checking and creating notary data asset-----------------------
+		notaryDataMap, ok := req["notaryData"].(map[string]interface{})
+		if !ok {
+			return nil, errors.WrapError(nil, "Invalid type for parameter 'notaryData'")
+		}
+		notaryData, err := utils.CheckAndCreateAsset(stub, notaryDataMap, "notaryData")
+		if err != nil {
+			return nil, errors.WrapError(err, "Failed to process 'notaryData'")
+		}
+		fmt.Println("--------------------", notaryData)
+
+		//------------------------checking and creating address asset-----------------------
+		addressMap, ok := req["address"].(map[string]interface{})
 		if !ok {
 			return nil, errors.WrapError(nil, "Invalid type for parameter 'address'")
 		}
+		address, err := utils.CheckAndCreateAsset(stub, addressMap, "address")
+		if err != nil {
+			return nil, errors.WrapError(err, "Failed to process 'address'")
+		}
+		fmt.Println("--------------------", address)
 
 		contractMap := map[string]interface{}{
 			"@assetType":             "contract",
@@ -262,11 +293,9 @@ var CreateContract = tx.Transaction{
 			"holders":                holders,
 			"installments":           installments,
 			"notaryData":             notaryData,
-			"payment":                payment,
-			"reimbursement":          reimbursement,
+			"address":                address,
 			"statusCode":             statusCode,
 			"lastEventDate":          lastEventDate,
-			"address":                address,
 		}
 
 		contractAsset, err := assets.NewAsset(contractMap)

@@ -126,6 +126,7 @@ var Contract = assets.AssetType{
 			DataType: "string",
 		},
 		{
+			Required: true,
 			Tag:      "address",
 			Label:    "Address",
 			DataType: "->address",
