@@ -24,7 +24,7 @@ var Payment = assets.AssetType{
 			Required: true,
 			Tag:      "dateCompletedUtc",
 			Label:    "Date Completed Utc",
-			DataType: "string",
+			DataType: "datetime",
 		},
 		{
 			Required: true,

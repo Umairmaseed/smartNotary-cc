@@ -85,13 +85,13 @@ var Charge = assets.AssetType{
 			Required: true,
 			Tag:      "possessionDate",
 			Label:    "Possession Date",
-			DataType: "string",
+			DataType: "datetime",
 		},
 		{
 			Required: true,
 			Tag:      "exitDate",
 			Label:    "Exit Date",
-			DataType: "string",
+			DataType: "datetime",
 		},
 		{
 			Required: true,

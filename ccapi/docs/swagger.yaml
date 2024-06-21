@@ -1,241 +1,19 @@
 openapi: 3.0.0
 info:
-  description: Documentation of the Chaincode API. This API is used to interact with the chaincode. 
+  description: Documentation of the Chaincode API. This API is used to interact with the chaincode.
   version: "1.0"
   title: CC Tools Demo
 servers:
   - url: /api
 tags:
-  - name: Basic Operations
+  - name: Register Requests
+  - name: Get Requests
 paths:
-  /invoke/{txName}:
-    post:
-      tags:
-        - Basic Operations
-      summary: Executes transaction txName and writes the result to the blockchain.
-      parameters:
-        - in: path
-          name: txName
-          schema:
-            type: string
-          required: true
-          description: Name of the transaction to be executed.
-      requestBody:
-        description: The request body must match the definition of the transaction arguments.
-        content:
-          application/json:
-            schema:
-              type: object
-      responses:
-        "200":
-          description: OK
-        "4XX":
-          description: Bad Request
-        5XX:
-          description: Internal error
-
-  /query/{txName}:
-    post:
-      tags:
-        - Basic Operations
-      summary: Executes transaction txName and returns only the result, without writing it to the blockchain.
-      parameters:
-        - in: path
-          name: txName
-          schema:
-            type: string
-          required: true
-          description: Name of the transaction to be executed.
-      requestBody:
-        description: The request body must match the definition of the transaction arguments.
-        content:
-          application/json:
-            schema:
-              type: object
-      responses:
-        "200":
-          description: OK
-        "4XX":
-          description: Bad Request
-        5XX:
-          description: Internal error
-
-  /query/getHeader:
-    get:
-      tags:
-        - Basic Operations
-      summary: Retrieves information about the chaincode.
-      responses:
-        "200":
-          description: OK
-        5XX:
-          description: Internal error.
-
-  /query/getTx:
-    get:
-      tags:
-        - Basic Operations
-      summary: Requests the list of defined transactions.
-      responses:
-        "200":
-          description: OK
-        5XX:
-          description: Internal error
-    post:
-      tags:
-        - Basic Operations
-      summary: Gets the description of a specific transaction.
-      requestBody:
-        description: The txName field must contain the name of a transaction defined by the chaincode.
-        content:
-          application/json:
-            schema:
-              txName:
-                type: string
-            examples:
-              getTx:
-                value:
-                  txName: getTx
-      responses:
-        "200":
-          description: OK
-        "400":
-          description: Bad Request
-        "404":
-          description: Transaction not found
-        5XX:
-          description: Internal error
-
-  /query/getSchema:
-    get:
-      tags:
-        - Basic Operations
-      summary: Searches the list of existing assets.
-      responses:
-        "200":
-          description: OK
-        5XX:
-          description: Internal error
-    post:
-      tags:
-        - Basic Operations
-      summary: Gets the description of a specific asset type.
-      requestBody:
-        description: The assetType must contain an asset type defined by the chaincode.
-        content:
-          application/json:
-            schema:
-              assetType:
-                type: string
-            examples:
-              person:
-                value:
-                  assetType: person
-      responses:
-        "200":
-          description: OK
-        "400":
-          description: Bad Request
-        "404":
-          description: Asset type not found
-        5XX:
-          description: Internal error
-
-  /invoke/createAsset:
-    post:
-      tags:
-        - Basic Operations
-      summary: Create asset on the blockchain
-      requestBody:
-        description: The asset must be an array of objects. Each object must contain the asset type in the @assetType field and the asset data in the other fields.
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                asset:
-                  type: array
-                  items:
-                    description: Any asset type defined by the chaincode. Check via getSchema.
-                    type: object
-            examples:
-              person:
-                summary: "Create person"
-                value:
-                  asset:
-                    - "@assetType": person
-                      name: "Maria"
-                      id: "318.207.920-48"
-      responses:
-        "200":
-          description: OK
-        "400":
-          description: Bad format
-        "409":
-          description: Asset already exists
-        5XX:
-          description: Internal error
-
-  /query/readAsset:
-    post:
-      tags:
-        - Basic Operations
-      summary: "Reads an asset from the blockchain using its primary key."
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                key:
-                  type: object
-            examples:
-              person:
-                summary: person
-                value:
-                  key:
-                    "@assetType": person
-                    id: "318.207.920-48"
-      responses:
-        "200":
-          description: OK
-        "404":
-          description: Asset not found
-        5XX:
-          description: Internal error
-
-  /query/readAssetHistory:
-    post:
-      tags:
-        - Basic Operations
-      summary: "Reads the history of an asset from the blockchain using its primary key."
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                key:
-                  type: object
-            examples:
-              person:
-                summary: person
-                value:
-                  key:
-                    "@assetType": person
-                    id: "318.207.920-48"
-      responses:
-        "200":
-          description: OK
-        "404":
-          description: Asset not found
-        5XX:
-          description: Internal error
 
   /query/search:
     post:
       tags:
-        - Basic Operations
+        - Get Requests
       summary: Searches the blockchain world state using CouchDB rich queries
       description: "Query JSON as defined by CouchDB docs: https://docs.couchdb.org/en/stable/api/database/find.html"
       requestBody:
@@ -253,26 +31,26 @@ paths:
                   bookmark:
                     type: string
             examples:
-              personAll:
-                summary: Get all assets of type person
+              contractAll:
+                summary: Get all assets of type contract
                 value:
                   query:
                     selector:
-                      "@assetType": person
-              personFirst10:
-                summary: Get first 10 assets of type person
+                      "@assetType": contract
+              contractFirst10:
+                summary: Get first 10 assets of type contract
                 value:
                   query:
                     selector:
-                      "@assetType": person
+                      "@assetType": contract
                     limit: 10
                     bookmark: ""
-              person10to20:
-                summary: Get assets 10-20 of type person
+              contract10to20:
+                summary: Get assets 10-20 of type contract
                 value:
                   query:
                     selector:
-                      "@assetType": person
+                      "@assetType": contract
                     limit: 10
                     bookmark: "g1AAAACGeJzLYWBgYMpgSmHgKy5JLCrJTq2MT8lPzkzJBYprF6QWFefnWaVaGBmbWCan6BqZJ6fpmqalWOgmGSWZ65qbWFommpkZWCYlW4KM4IAZQarmLAD0pSXP"
       responses:
@@ -282,68 +60,518 @@ paths:
           description: Bad format
         5XX:
           description: Internal error
-
-  /invoke/updateAsset:
-    put:
+    
+  /invoke/createContract:
+    post:
       tags:
-        - Basic Operations
-      summary: Updates an existing asset
+        - Register Requests
+      summary: Create a new contract on the blockchain
       requestBody:
+        required: true
         content:
           application/json:
             schema:
               type: object
               properties:
-                "@assetType":
+                id:
                   type: string
-            examples:
-              updateHeight:
-                summary: "Change person height"
+                  description: ID of the contract.
+                discriminator:
+                  type: string
+                  description: Discriminator for the contract.
+                notarySubscriptionId:
+                  type: string
+                  description: Notary subscription ID related to the contract.
+                assetRegistry:
+                  type: string
+                  description: Asset registry associated with the contract.
+                cns:
+                  type: string
+                  description: CNS (Central Notification System) related to the contract.
+                type:
+                  type: string
+                  description: Type of the contract.
+                realStateAssetTypeCode:
+                  type: string
+                  description: Real estate asset type code for the contract.
+                propertyTypeCode:
+                  type: string
+                  description: Property type code for the contract.
                 value:
-                  update:
-                    "@assetType": "person"
-                    name: "Maria"
-                    height: 1.66
-        description: The asset must contain the primary key of the asset and the fields to be updated.
-        required: true
+                  type: number
+                  description: Value associated with the contract.
+                creationDateUtc:
+                  type: string
+                  format: date-time
+                  example: "2023-06-15T00:00:00Z"
+                  description: Creation date of the contract in UTC.
+                ccir:
+                  type: string
+                  description: CCIR (Country Code for Institutional Registration) related to the contract.
+                nirf:
+                  type: string
+                  description: NIRF (National Identity Reference File) related to the contract.
+                statusCode:
+                  type: string
+                  description: Status code of the contract.
+                lastEventDate:
+                  type: string
+                  format: date-time
+                  example: "2023-06-15T00:00:00Z"
+                  description: Date of the last event related to the contract in UTC.
+                charge:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    financingModalityCode:
+                      type: string
+                    financingModalityInterest:
+                      type: number
+                    monetaryCorrectionIndexCode:
+                      type: string
+                    monetaryCorrectionIndexPeriodicityCode:
+                      type: string
+                    fineInCaseOfDelay:
+                      type: number
+                    interestInCaseOfDelay:
+                      type: number
+                    delayGracePeriodDays:
+                      type: integer
+                    absoluteDefaultFineOverSignalPayment:
+                      type: number
+                    absoluteDefaultFineOverRemaining:
+                      type: number
+                    absoluteDefaultGracePeriodDays:
+                      type: integer
+                    hasPossession:
+                      type: boolean
+                    possessionDate:
+                      type: string
+                      format: date-time
+                      example: "2023-06-15T00:00:00Z"
+                    exitDate:
+                      type: string
+                      format: date-time
+                      example: "2023-06-15T00:00:00Z"
+                    fineInCaseOfOverstay:
+                      type: number
+                  required:
+                    - id
+                    - financingModalityCode
+                    - financingModalityInterest
+                    - monetaryCorrectionIndexCode
+                    - monetaryCorrectionIndexPeriodicityCode
+                    - fineInCaseOfDelay
+                    - interestInCaseOfDelay
+                    - delayGracePeriodDays
+                    - absoluteDefaultFineOverSignalPayment
+                    - absoluteDefaultFineOverRemaining
+                    - absoluteDefaultGracePeriodDays
+                    - hasPossession
+                    - possessionDate
+                    - exitDate
+                    - fineInCaseOfOverstay
+                  description: Charge information related to the contract.
+                holders:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      holderId:
+                        type: string
+                      role:
+                        type: string
+                      ownedPercentage:
+                        type: number
+                      percentage:
+                        type: number
+                    required:
+                      - holderId
+                      - role
+                      - ownedPercentage
+                      - percentage
+                  description: List of holders associated with the contract.
+                installments:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      number:
+                        type: integer
+                      dueDateUtc:
+                        type: string
+                        format: date-time
+                        example: "2023-06-15T00:00:00Z"
+                      amortization:
+                        type: number
+                      financingModalityInterestValue:
+                        type: number
+                      installmentValue:
+                        type: number
+                      fineInCaseOfDelayValue:
+                        type: number
+                      interestInCaseOfDelayValue:
+                        type: number
+                      monetaryCorrectionValue:
+                        type: number
+                      reimbursement:
+                        type: number
+                    required:
+                      - id
+                      - number
+                      - dueDateUtc
+                      - amortization
+                      - financingModalityInterestValue
+                      - installmentValue
+                  description: List of installments related to the contract.
+                notaryData:
+                  type: object
+                  properties:
+                    signerDocumentId:
+                      type: string
+                    mne:
+                      type: string
+                    notarizationDate:
+                      type: string
+                      format: date-time
+                      example: "2023-06-15T00:00:00Z"
+                  required:
+                    - signerDocumentId
+                    - mne
+                    - notarizationDate
+                  description: Notary data related to the contract.
+                address:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    ufCode:
+                      type: string
+                    city:
+                      type: string
+                    neighborhood:
+                      type: string
+                    zipCode:
+                      type: string
+                    number:
+                      type: string
+                    additionalInfo:
+                      type: string
+                  required:
+                    - id
+                    - ufCode
+                    - city
+                    - neighborhood
+                    - zipCode
+                    - number
+                    - additionalInfo
+                  description: Address associated with the contract.
       responses:
         "200":
-          description: OK
+          description: Contract successfully created
         "400":
           description: Bad format
-        "404":
-          description: Asset not found
-        5XX:
-          description: Internal error
+        "409":
+          description: Contract already exists
+        "5XX":
+          description: Internal Server Error
 
-  /invoke/deleteAsset:
-    delete:
+  /query/getContract:
+    post:
       tags:
-        - Basic Operations
-      summary: Deletes an existing asset
+        - Get Requests
+      summary: Retrieve contract details from the blockchain
       requestBody:
+        required: true
         content:
           application/json:
             schema:
               type: object
               properties:
-                "@assetType":
+                id:
                   type: string
-            examples:
-              deletePerson:
-                summary: 'Delete person with name "Maria"'
-                value:
-                  key:
-                    "@assetType": person
-                    id: "318.207.920-48"
-        description: The asset must contain the primary key of the asset.
-        required: true
+              required:
+                - id
       responses:
         "200":
-          description: OK
+          description: Contract details retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
         "400":
-          description: Bad format
+          description: Bad Request
         "404":
-          description: Asset not found
-        5XX:
-          description: Internal error
+          description: Contract not found
+        "5XX":
+          description: Internal Server Error
+
+  /query/getContractHistory:
+    post:
+      tags:
+        - Get Requests
+      summary: Retrieve history of changes for a specific contract from the blockchain
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID of the contract to retrieve history for.
+      responses:
+        "200":
+          description: Contract history retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    txId:
+                      type: string
+                      description: Transaction ID
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: Timestamp of the transaction
+                    value:
+                      type: object
+                      description: Raw JSON message representing the value at that transaction
+                    isDeleted:
+                      type: boolean
+                      description: Indicates if the record was deleted
+        "400":
+          description: Bad Request
+        "404":
+          description: Contract not found
+        "5XX":
+          description: Internal Server Error
+
+  /invoke/payInstallment:
+    post:
+      tags:
+        - Register Requests
+      summary: Make a payment for an installment of a contract
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                assetId:
+                  type: string
+                  description: ID of the contract for which the installment payment is made
+                installment:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      description: ID of the installment
+                    number:
+                      type: integer
+                      description: Installment number
+                    dueDateUtc:
+                      type: string
+                      format: date-time
+                      description: Due date of the installment in UTC
+                    amortization:
+                      type: number
+                      description: Amortization value
+                    financingModalityInterestValue:
+                      type: number
+                      description: Financing modality interest value
+                    installmentValue:
+                      type: number
+                      description: Installment value
+                    fineInCaseOfDelayValue:
+                      type: number
+                      description: Fine in case of delay value
+                    interestInCaseOfDelayValue:
+                      type: number
+                      description: Interest in case of delay value
+                    monetaryCorrectionValue:
+                      type: number
+                      description: Monetary correction value
+                    reimbursement:
+                      type: number
+                      description: Reimbursement value
+                  required:
+                    - id
+                    - number
+                    - dueDateUtc
+                    - amortization
+                    - financingModalityInterestValue
+                    - installmentValue
+                payment:
+                  type: object
+                  properties:
+                    value:
+                      type: number
+                      description: Payment value
+                    dateCompletedUtc:
+                      type: string
+                      format: date-time
+                      example: "2023-06-15T00:00:00Z"
+                      description: Date when the payment was completed in UTC
+                    discriminator:
+                      type: string
+                      description: Discriminator for payment details
+                    gatewaySaleId:
+                      type: string
+                      description: Gateway sale ID
+                    gatewaySellerId:
+                      type: string
+                      description: Gateway seller ID
+                    gatewayFee:
+                      type: number
+                      description: Gateway fee
+                  required:
+                    - value
+                    - dateCompletedUtc
+                    - discriminator
+                    - gatewaySaleId
+                    - gatewaySellerId
+                    - gatewayFee
+      responses:
+        "200":
+          description: Payment processed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+        "400":
+          description: Bad Request
+        "404":
+          description: Contract or installment not found
+        "5XX":
+          description: Internal Server Error
+
+  /invoke/reimbursement:
+    post:
+      tags:
+        - Register Requests
+      summary: Create a reimbursement for cancelled installments of a contract
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                assetId:
+                  type: string
+                  description: ID of the contract for which the reimbursement is created
+                cancelledInstallments:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        description: ID of the cancelled installment
+                  description: List of cancelled installment objects
+                reimbursementInstallment:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      description: ID of the reimbursement installment
+                    number:
+                      type: integer
+                      description: Reimbursement installment number
+                    dueDateUtc:
+                      type: string
+                      format: date-time
+                      description: Due date of the reimbursement installment in UTC
+                    amortization:
+                      type: number
+                      description: Amortization value of the reimbursement installment
+                    financingModalityInterestValue:
+                      type: number
+                      description: Financing modality interest value of the reimbursement installment
+                    installmentValue:
+                      type: number
+                      description: Value of the reimbursement installment
+                  required:
+                    - id
+                    - number
+                    - dueDateUtc
+                    - amortization
+                    - financingModalityInterestValue
+                    - installmentValue
+      responses:
+        "200":
+          description: Reimbursement created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+        "400":
+          description: Bad Request
+        "404":
+          description: Contract or installment not found
+        "5XX":
+          description: Internal Server Error
+
+  /invoke/updateContractEvent:
+    post:
+      tags:
+        - Register Requests
+      summary: Update Contract Event
+      description: Register an event change on the contract
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                assetId:
+                  type: string
+                  description: ID of the contract to update
+                  example: "contract123"
+                statusCode:
+                  type: string
+                  description: New status code of the contract
+                  example: "active"
+                eventDate:
+                  type: string
+                  format: date-time
+                  description: Date of the event in UTC format
+                  example: "2023-06-15T00:00:00Z"
+              required:
+                - assetId
+                - statusCode
+                - eventDate
+      responses:
+        "200":
+          description: Contract event updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  assetId:
+                    type: string
+                    description: ID of the updated contract
+                    example: "contract123"
+                  statusCode:
+                    type: string
+                    description: Updated status code of the contract
+                    example: "active"
+                  lastEventDate:
+                    type: string
+                    format: date-time
+                    description: Date of the last event in UTC format
+                    example: "2023-06-15T00:00:00Z"
+        "400":
+          description: Bad Request
+        "404":
+          description: Contract not found
+        "5XX":
+          description: Internal Server Error

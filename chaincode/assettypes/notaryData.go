@@ -24,7 +24,7 @@ var NotaryData = assets.AssetType{
 			Required: true,
 			Tag:      "notarizationDate",
 			Label:    "Notarization Date",
-			DataType: "string",
+			DataType: "datetime",
 		},
 	},
 }
