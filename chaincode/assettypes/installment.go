@@ -24,7 +24,7 @@ var Instalment = assets.AssetType{
 			Required: true,
 			Tag:      "dueDateUtc",
 			Label:    "Due Date Utc",
-			DataType: "string",
+			DataType: "datetime",
 		},
 		{
 			Required: true,

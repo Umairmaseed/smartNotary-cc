@@ -67,7 +67,7 @@ var Contract = assets.AssetType{
 			Required: true,
 			Tag:      "creationDateUtc",
 			Label:    "Creation Date Utc",
-			DataType: "string",
+			DataType: "datetime",
 		},
 		{
 			Required: true,
@@ -123,7 +123,7 @@ var Contract = assets.AssetType{
 		{
 			Tag:      "lastEventDate",
 			Label:    "Last Event Date",
-			DataType: "string",
+			DataType: "datetime",
 		},
 		{
 			Required: true,
