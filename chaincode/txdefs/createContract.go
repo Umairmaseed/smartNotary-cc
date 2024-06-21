@@ -2,7 +2,6 @@ package txdefs
 
 import (
 	"encoding/json"
-	"fmt"
 
 	"github.com/hyperledger-labs/cc-tools/assets"
 	"github.com/hyperledger-labs/cc-tools/errors"
@@ -211,7 +210,6 @@ var CreateContract = tx.Transaction{
 		if err != nil {
 			return nil, errors.WrapError(err, "Failed to process 'charge'")
 		}
-		fmt.Println("--------------------", charge)
 
 		//------------------------checking and creating holder asset-----------------------
 		holderMaps, ok := req["holders"].([]interface{})
@@ -228,8 +226,6 @@ var CreateContract = tx.Transaction{
 			if err != nil {
 				return nil, errors.WrapError(err, "Failed to process 'holders'")
 			}
-			fmt.Println("--------------------", asset)
-
 			holders = append(holders, asset)
 		}
 
@@ -248,8 +244,6 @@ var CreateContract = tx.Transaction{
 			if err != nil {
 				return nil, errors.WrapError(err, "Failed to process 'installments'")
 			}
-			fmt.Println("--------------------", asset)
-
 			installments = append(installments, asset)
 		}
 
@@ -262,8 +256,6 @@ var CreateContract = tx.Transaction{
 		if err != nil {
 			return nil, errors.WrapError(err, "Failed to process 'notaryData'")
 		}
-		fmt.Println("--------------------", notaryData)
-
 		//------------------------checking and creating address asset-----------------------
 		addressMap, ok := req["address"].(map[string]interface{})
 		if !ok {
@@ -273,7 +265,6 @@ var CreateContract = tx.Transaction{
 		if err != nil {
 			return nil, errors.WrapError(err, "Failed to process 'address'")
 		}
-		fmt.Println("--------------------", address)
 
 		contractMap := map[string]interface{}{
 			"@assetType":             "contract",
