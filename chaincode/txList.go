@@ -15,4 +15,11 @@ var txList = []tx.Transaction{
 	txdefs.Reimbursement,
 	txdefs.GetContract,
 	txdefs.GetContractHistory,
+	txdefs.GetAddressHistory,
+	txdefs.GetChargeHistory,
+	txdefs.GetHolderHistory,
+	txdefs.GetInstallmentHistory,
+	txdefs.GetNotaryDataHistory,
+	txdefs.GetPaymentHistory,
+	txdefs.GetReimbursementHistory,
 }

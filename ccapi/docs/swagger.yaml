@@ -2,14 +2,13 @@ openapi: 3.0.0
 info:
   description: Documentation of the Chaincode API. This API is used to interact with the chaincode.
   version: "1.0"
-  title: CC Tools Demo
+  title: Smartescritura
 servers:
   - url: /api
 tags:
   - name: Register Requests
   - name: Get Requests
 paths:
-
   /query/search:
     post:
       tags:
@@ -60,7 +59,7 @@ paths:
           description: Bad format
         5XX:
           description: Internal error
-    
+
   /invoke/createContract:
     post:
       tags:
@@ -573,5 +572,323 @@ paths:
           description: Bad Request
         "404":
           description: Contract not found
+        "5XX":
+          description: Internal Server Error
+
+  /query/getAddressHistory:
+    post:
+      tags:
+        - Get Requests
+      summary: Retrieve history of changes for a specific address from the blockchain
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID of the address to retrieve history for.
+      responses:
+        "200":
+          description: Address history retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    txId:
+                      type: string
+                      description: Transaction ID
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: Timestamp of the transaction
+                    value:
+                      type: object
+                      description: Raw JSON message representing the value at that transaction
+                    isDeleted:
+                      type: boolean
+                      description: Indicates if the record was deleted
+        "400":
+          description: Bad Request
+        "404":
+          description: Address not found
+        "5XX":
+          description: Internal Server Error
+
+  /query/getChargeHistory:
+    post:
+      tags:
+        - Get Requests
+      summary: Retrieve history of changes for a specific charge from the blockchain
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID of the charge to retrieve history for.
+      responses:
+        "200":
+          description: Charge history retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    txId:
+                      type: string
+                      description: Transaction ID
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: Timestamp of the transaction
+                    value:
+                      type: object
+                      description: Raw JSON message representing the value at that transaction
+                    isDeleted:
+                      type: boolean
+                      description: Indicates if the record was deleted
+        "400":
+          description: Bad Request
+        "404":
+          description: Charge not found
+        "5XX":
+          description: Internal Server Error
+
+  /query/getHolderHistory:
+    post:
+      tags:
+        - Get Requests
+      summary: Retrieve history of changes for a specific holder from the blockchain
+      parameters:
+        - in: query
+          name: holderId
+          schema:
+            type: string
+          required: true
+          description: ID of the holder to retrieve history for.
+      responses:
+        "200":
+          description: Holder history retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    txId:
+                      type: string
+                      description: Transaction ID
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: Timestamp of the transaction
+                    value:
+                      type: object
+                      description: Raw JSON message representing the value at that transaction
+                    isDeleted:
+                      type: boolean
+                      description: Indicates if the record was deleted
+        "400":
+          description: Bad Request
+        "404":
+          description: Holder not found
+        "5XX":
+          description: Internal Server Error
+
+  /query/getInstallmentHistory:
+    post:
+      tags:
+        - Get Requests
+      summary: Retrieve history of changes for a specific installment from the blockchain
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID of the installment to retrieve history for.
+      responses:
+        "200":
+          description: Installment history retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    txId:
+                      type: string
+                      description: Transaction ID
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: Timestamp of the transaction
+                    value:
+                      type: object
+                      description: Raw JSON message representing the value at that transaction
+                    isDeleted:
+                      type: boolean
+                      description: Indicates if the record was deleted
+        "400":
+          description: Bad Request
+        "404":
+          description: Installment not found
+        "5XX":
+          description: Internal Server Error
+
+  /query/getNotaryDataHistory:
+    post:
+      tags:
+        - Get Requests
+      summary: Retrieve history of changes for a specific notary data from the blockchain
+      parameters:
+        - in: query
+          name: signerDocumentId
+          schema:
+            type: string
+          required: true
+          description: Signer Document ID to retrieve history for.
+      responses:
+        "200":
+          description: Notary data history retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    txId:
+                      type: string
+                      description: Transaction ID
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: Timestamp of the transaction
+                    value:
+                      type: object
+                      description: Raw JSON message representing the value at that transaction
+                    isDeleted:
+                      type: boolean
+                      description: Indicates if the record was deleted
+        "400":
+          description: Bad Request
+        "404":
+          description: Notary data not found
+        "5XX":
+          description: Internal Server Error
+
+  /query/getPaymentHistory:
+    post:
+      tags:
+        - Get Requests
+      summary: Retrieve history of changes for a specific payment from the blockchain
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                installment:
+                  type: object
+                  properties:
+                    "@key":
+                      type: string
+                      example: "installment:4d8156ac-6202-5199-9f4c-a08bd8dd2dea"
+                    id:
+                      type: string
+                      example: "installment123"
+              required:
+                - "@key"
+                - id
+      responses:
+        "200":
+          description: Payment history retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    txId:
+                      type: string
+                      description: Transaction ID
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: Timestamp of the transaction
+                    value:
+                      type: object
+                      description: Raw JSON message representing the value at that transaction
+                    isDeleted:
+                      type: boolean
+                      description: Indicates if the record was deleted
+        "400":
+          description: Bad Request
+        "404":
+          description: Payment not found
+        "5XX":
+          description: Internal Server Error
+
+  /query/getReimbursementHistory:
+    post:
+      tags:
+        - Get Requests
+      summary: Retrieve history of changes for a specific reimbursement from the blockchain
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                reimbursementInstallment:
+                  type: object
+                  properties:
+                    "@key":
+                      type: string
+                      example: "installment:4d8156ac-6202-5199-9f4c-a08bd8dd2dea"
+                    id:
+                      type: string
+                      example: "installment123"
+              required:
+                - "@key"
+                - id
+      responses:
+        "200":
+          description: Reimbursement history retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    txId:
+                      type: string
+                      description: Transaction ID
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: Timestamp of the transaction
+                    value:
+                      type: object
+                      description: Raw JSON message representing the value at that transaction
+                    isDeleted:
+                      type: boolean
+                      description: Indicates if the record was deleted
+        "400":
+          description: Bad Request
+        "404":
+          description: Reimbursement not found
         "5XX":
           description: Internal Server Error
