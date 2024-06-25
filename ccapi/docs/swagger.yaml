@@ -308,48 +308,6 @@ paths:
         "5XX":
           description: Internal Server Error
 
-  /query/getContractHistory:
-    post:
-      tags:
-        - Get Requests
-      summary: Retrieve history of changes for a specific contract from the blockchain
-      parameters:
-        - in: query
-          name: id
-          schema:
-            type: string
-          required: true
-          description: ID of the contract to retrieve history for.
-      responses:
-        "200":
-          description: Contract history retrieved successfully
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    txId:
-                      type: string
-                      description: Transaction ID
-                    timestamp:
-                      type: string
-                      format: date-time
-                      description: Timestamp of the transaction
-                    value:
-                      type: object
-                      description: Raw JSON message representing the value at that transaction
-                    isDeleted:
-                      type: boolean
-                      description: Indicates if the record was deleted
-        "400":
-          description: Bad Request
-        "404":
-          description: Contract not found
-        "5XX":
-          description: Internal Server Error
-
   /invoke/payInstallment:
     post:
       tags:
@@ -575,18 +533,70 @@ paths:
         "5XX":
           description: Internal Server Error
 
+  /query/getContractHistory:
+    post:
+      tags:
+        - Get Requests
+      summary: Retrieve history of changes for a specific contract from the blockchain
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: ID of the contract to retrieve history for.
+              required:
+                - id
+      responses:
+        "200":
+          description: Contract history retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    txId:
+                      type: string
+                      description: Transaction ID
+                    timestamp:
+                      type: string
+                      format: date-time
+                      description: Timestamp of the transaction
+                    value:
+                      type: object
+                      description: Raw JSON message representing the value at that transaction
+                    isDeleted:
+                      type: boolean
+                      description: Indicates if the record was deleted
+        "400":
+          description: Bad Request
+        "404":
+          description: Contract not found
+        "5XX":
+          description: Internal Server Error
+
   /query/getAddressHistory:
     post:
       tags:
         - Get Requests
       summary: Retrieve history of changes for a specific address from the blockchain
-      parameters:
-        - in: query
-          name: id
-          schema:
-            type: string
-          required: true
-          description: ID of the address to retrieve history for.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: ID of the address to retrieve history for.
+              required:
+                - id
       responses:
         "200":
           description: Address history retrieved successfully
@@ -622,13 +632,18 @@ paths:
       tags:
         - Get Requests
       summary: Retrieve history of changes for a specific charge from the blockchain
-      parameters:
-        - in: query
-          name: id
-          schema:
-            type: string
-          required: true
-          description: ID of the charge to retrieve history for.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: ID of the charge to retrieve history for.
+              required:
+                - id
       responses:
         "200":
           description: Charge history retrieved successfully
@@ -646,31 +661,24 @@ paths:
                       type: string
                       format: date-time
                       description: Timestamp of the transaction
-                    value:
-                      type: object
-                      description: Raw JSON message representing the value at that transaction
-                    isDeleted:
-                      type: boolean
-                      description: Indicates if the record was deleted
-        "400":
-          description: Bad Request
-        "404":
-          description: Charge not found
-        "5XX":
-          description: Internal Server Error
 
   /query/getHolderHistory:
     post:
       tags:
         - Get Requests
       summary: Retrieve history of changes for a specific holder from the blockchain
-      parameters:
-        - in: query
-          name: holderId
-          schema:
-            type: string
-          required: true
-          description: ID of the holder to retrieve history for.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                holderId:
+                  type: string
+                  description: ID of the holder to retrieve history for.
+              required:
+                - holderId
       responses:
         "200":
           description: Holder history retrieved successfully
@@ -706,13 +714,18 @@ paths:
       tags:
         - Get Requests
       summary: Retrieve history of changes for a specific installment from the blockchain
-      parameters:
-        - in: query
-          name: id
-          schema:
-            type: string
-          required: true
-          description: ID of the installment to retrieve history for.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: ID of the installment to retrieve history for.
+              required:
+                - id
       responses:
         "200":
           description: Installment history retrieved successfully
@@ -748,13 +761,18 @@ paths:
       tags:
         - Get Requests
       summary: Retrieve history of changes for a specific notary data from the blockchain
-      parameters:
-        - in: query
-          name: signerDocumentId
-          schema:
-            type: string
-          required: true
-          description: Signer Document ID to retrieve history for.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                signerDocumentId:
+                  type: string
+                  description: Signer Document ID to retrieve history for.
+              required:
+                - signerDocumentId
       responses:
         "200":
           description: Notary data history retrieved successfully
