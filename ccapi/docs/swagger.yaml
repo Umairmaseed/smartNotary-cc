@@ -9,7 +9,7 @@ tags:
   - name: Register Requests
   - name: Get Requests
 paths:
-  /query/search:
+  /smartescritura-channel/smartescritura-cc/query/search:
     post:
       tags:
         - Get Requests
@@ -60,7 +60,7 @@ paths:
         5XX:
           description: Internal error
 
-  /invoke/createContract:
+  /smartescritura-channel/smartescritura-cc/invoke/createContract:
     post:
       tags:
         - Register Requests
@@ -278,7 +278,7 @@ paths:
         "5XX":
           description: Internal Server Error
 
-  /query/getContract:
+  /smartescritura-channel/smartescritura-cc/query/getContract:
     post:
       tags:
         - Get Requests
@@ -308,7 +308,7 @@ paths:
         "5XX":
           description: Internal Server Error
 
-  /invoke/payInstallment:
+  /smartescritura-channel/smartescritura-cc/invoke/payInstallment:
     post:
       tags:
         - Register Requests
@@ -408,7 +408,7 @@ paths:
         "5XX":
           description: Internal Server Error
 
-  /invoke/reimbursement:
+  /smartescritura-channel/smartescritura-cc/invoke/reimbursement:
     post:
       tags:
         - Register Requests
@@ -475,7 +475,7 @@ paths:
         "5XX":
           description: Internal Server Error
 
-  /invoke/updateContractEvent:
+  /smartescritura-channel/smartescritura-cc/invoke/updateContractEvent:
     post:
       tags:
         - Register Requests
@@ -533,7 +533,7 @@ paths:
         "5XX":
           description: Internal Server Error
 
-  /query/getContractHistory:
+  /smartescritura-channel/smartescritura-cc/query/getContractHistory:
     post:
       tags:
         - Get Requests
@@ -580,7 +580,7 @@ paths:
         "5XX":
           description: Internal Server Error
 
-  /query/getAddressHistory:
+  /smartescritura-channel/smartescritura-cc/query/getAddressHistory:
     post:
       tags:
         - Get Requests
@@ -627,7 +627,7 @@ paths:
         "5XX":
           description: Internal Server Error
 
-  /query/getChargeHistory:
+  /smartescritura-channel/smartescritura-cc/query/getChargeHistory:
     post:
       tags:
         - Get Requests
@@ -662,7 +662,7 @@ paths:
                       format: date-time
                       description: Timestamp of the transaction
 
-  /query/getHolderHistory:
+  /smartescritura-channel/smartescritura-cc/query/getHolderHistory:
     post:
       tags:
         - Get Requests
@@ -709,7 +709,7 @@ paths:
         "5XX":
           description: Internal Server Error
 
-  /query/getInstallmentHistory:
+  /smartescritura-channel/smartescritura-cc/query/getInstallmentHistory:
     post:
       tags:
         - Get Requests
@@ -756,7 +756,7 @@ paths:
         "5XX":
           description: Internal Server Error
 
-  /query/getNotaryDataHistory:
+  /smartescritura-channel/smartescritura-cc/query/getNotaryDataHistory:
     post:
       tags:
         - Get Requests
@@ -803,7 +803,7 @@ paths:
         "5XX":
           description: Internal Server Error
 
-  /query/getPaymentHistory:
+  /smartescritura-channel/smartescritura-cc/query/getPaymentHistory:
     post:
       tags:
         - Get Requests
@@ -857,7 +857,7 @@ paths:
         "5XX":
           description: Internal Server Error
 
-  /query/getReimbursementHistory:
+  /smartescritura-channel/smartescritura-cc/query/getReimbursementHistory:
     post:
       tags:
         - Get Requests
