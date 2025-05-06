@@ -7,7 +7,7 @@ import (
 	"github.com/hyperledger-labs/cc-tools/errors"
 	sw "github.com/hyperledger-labs/cc-tools/stubwrapper"
 	tx "github.com/hyperledger-labs/cc-tools/transactions"
-	"github.com/hyperledger-labs/smartescritura-cc/chaincode/utils"
+	"github.com/hyperledger-labs/smartNotary-cc/chaincode/utils"
 )
 
 var CreateContract = tx.Transaction{

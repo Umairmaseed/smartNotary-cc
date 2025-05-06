@@ -12,7 +12,7 @@ tar \
 --exclude=src/assettypes/customAssets.go \
 --exclude=src/collections.json \
 --exclude=src/header/header.go \
--czf smartescritura-cc.tar.gz src
+-czf smartNotary-cc.tar.gz src
 
 # Compress file with rest-server
 # GoFabric will use the one provided
@@ -23,7 +23,7 @@ tar \
 # --exclude=src/assettypes/customAssets.go \
 # --exclude=src/collections.json \
 # --exclude=src/header/header.go \
-# -czf smartescritura-cc.tar.gz src -C tmp rest-server
+# -czf smartNotary-cc.tar.gz src -C tmp rest-server
 # rm -rf tmp
 
 

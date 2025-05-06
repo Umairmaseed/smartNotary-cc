@@ -1,4 +1,4 @@
-module github.com/hyperledger-labs/smartescritura-cc/chaincode
+module github.com/hyperledger-labs/smartNotary-cc/chaincode
 
 go 1.13
 

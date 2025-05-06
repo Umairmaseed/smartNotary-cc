@@ -2,7 +2,7 @@ package main
 
 import (
 	tx "github.com/hyperledger-labs/cc-tools/transactions"
-	"github.com/hyperledger-labs/smartescritura-cc/chaincode/txdefs"
+	"github.com/hyperledger-labs/smartNotary-cc/chaincode/txdefs"
 )
 
 var txList = []tx.Transaction{

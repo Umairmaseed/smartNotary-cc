@@ -5,7 +5,7 @@ fabric/channel-artifacts
 fabric/ca
 chaincode/vendor/*
 ccapi/vendor/*
-smartescritura-cc.tar.gz
+smartNotary-cc.tar.gz
 package-lock.json
 
 .DS_Store

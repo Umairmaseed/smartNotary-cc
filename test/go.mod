@@ -1,3 +1,3 @@
-module github.com/hyperledger-labs/smartescritura-cc/test
+module github.com/hyperledger-labs/smartNotary-cc/test
 
 go 1.16
